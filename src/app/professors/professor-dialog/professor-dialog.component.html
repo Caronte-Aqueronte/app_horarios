@@ -1,0 +1,80 @@
+<h2 mat-dialog-title>
+  {{ isEditMode ? "Editar Docente" : "Crear Docente" }}
+</h2>
+
+<mat-dialog-content [formGroup]="saveProfessorForm" class="mt-4 space-y-6">
+  <mat-form-field appearance="fill" class="w-full">
+    <mat-label>Nombre</mat-label>
+    <input matInput formControlName="name" />
+    <mat-error *ngIf="saveProfessorForm.get('name')?.hasError('required')">
+      Campo requerido
+    </mat-error>
+    <mat-error *ngIf="saveProfessorForm.get('name')?.hasError('minlength')">
+      Mínimo de 1 carácter
+    </mat-error>
+    <mat-error *ngIf="saveProfessorForm.get('name')?.hasError('maxlength')">
+      Máximo de 100 caracteres
+    </mat-error>
+  </mat-form-field>
+
+  <mat-form-field appearance="fill" class="w-full">
+    <mat-label>DPI</mat-label>
+    <input matInput formControlName="dpi" />
+    <mat-error *ngIf="saveProfessorForm.get('dpi')?.hasError('required')">
+      Campo requerido
+    </mat-error>
+    <mat-error
+      *ngIf="
+        saveProfessorForm.get('dpi')?.hasError('minlength') ||
+        saveProfessorForm.get('dpi')?.hasError('maxlength')
+      "
+    >
+      Debe tener de 13 carácter
+    </mat-error>
+  </mat-form-field>
+
+  <mat-form-field appearance="fill" class="w-full">
+    <mat-label>Hora de Entrada</mat-label>
+    <input matInput formControlName="entry_time" [matTimepicker]="entry_time" />
+    <mat-timepicker-toggle
+      matIconSuffix
+      [for]="entry_time"
+    ></mat-timepicker-toggle>
+    <mat-timepicker #entry_time></mat-timepicker>
+    <mat-error
+      *ngIf="saveProfessorForm.get('entry_time')?.hasError('required')"
+    >
+      Campo requerido
+    </mat-error>
+  </mat-form-field>
+
+  <mat-form-field appearance="fill" class="w-full">
+    <mat-label>Hora de Salida</mat-label>
+    <input
+      matInput
+      formControlName="exit_time"
+      [matTimepicker]="exit_time"
+    />
+    <mat-timepicker-toggle
+      matIconSuffix
+      [for]="exit_time"
+    ></mat-timepicker-toggle>
+    <mat-timepicker #exit_time></mat-timepicker>
+    <mat-error *ngIf="saveProfessorForm.get('exit_time')?.hasError('required')">
+      Campo requerido
+    </mat-error>
+  </mat-form-field>
+</mat-dialog-content>
+
+<mat-dialog-actions align="end" class="mt-4">
+  <button mat-button (click)="closeDialog()">Cancelar</button>
+  <button
+    mat-flat-button
+    color="primary"
+    (click)="save()"
+    [disabled]="!saveProfessorForm.valid"
+  >
+    {{ isEditMode ? "Guardar" : "Crear" }}
+    <mat-icon >{{ isEditMode ? "save" : "add" }}</mat-icon>
+  </button>
+</mat-dialog-actions>

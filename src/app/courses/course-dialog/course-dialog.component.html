@@ -1,0 +1,110 @@
+<h2 mat-dialog-title>
+  {{ isEditMode ? "Editar Curso" : "Crear Curso" }}
+</h2>
+
+<mat-dialog-content [formGroup]="saveCourseForm" class="mt-4 space-y-6">
+  <mat-form-field appearance="fill" class="w-full">
+    <mat-label>Nombre</mat-label>
+    <input matInput formControlName="name" />
+    <mat-error *ngIf="saveCourseForm.get('name')?.hasError('required')">
+      Campo requerido
+    </mat-error>
+    <mat-error *ngIf="saveCourseForm.get('name')?.hasError('minlength')">
+      Mínimo de 1 carácter
+    </mat-error>
+    <mat-error *ngIf="saveCourseForm.get('name')?.hasError('maxlength')">
+      Máximo de 100 caracteres
+    </mat-error>
+  </mat-form-field>
+
+  <mat-form-field appearance="fill" class="w-full">
+    <mat-label>Código</mat-label>
+    <input matInput formControlName="code" />
+    <mat-error *ngIf="saveCourseForm.get('code')?.hasError('required')">
+      Campo requerido
+    </mat-error>
+    <mat-error *ngIf="saveCourseForm.get('code')?.hasError('minlength')">
+      Mínimo de 1 carácter
+    </mat-error>
+    <mat-error *ngIf="saveCourseForm.get('code')?.hasError('maxlength')">
+      Máximo de 20 caracteres
+    </mat-error>
+  </mat-form-field>
+
+  <mat-form-field appearance="fill" class="w-full">
+    <mat-label>Carrera</mat-label>
+    <input matInput formControlName="career" />
+
+    <mat-error *ngIf="saveCourseForm.get('career')?.hasError('required')">
+      Campo requerido
+    </mat-error>
+    <mat-error *ngIf="saveCourseForm.get('career')?.hasError('minlength')">
+      Mínimo de 1 carácter
+    </mat-error>
+    <mat-error *ngIf="saveCourseForm.get('career')?.hasError('maxlength')">
+      Máximo de 100 caracteres
+    </mat-error>
+  </mat-form-field>
+
+  <mat-form-field appearance="fill" class="w-full">
+    <mat-label>Semestre</mat-label>
+    <input type="number" matInput formControlName="semester" />
+    <mat-error *ngIf="saveCourseForm.get('semester')?.hasError('required')">
+      Campo requerido
+    </mat-error>
+    <mat-error *ngIf="saveCourseForm.get('semester')?.hasError('min')">
+      Debe ser mayor a 0
+    </mat-error>
+  </mat-form-field>
+
+  <mat-form-field appearance="fill" class="w-full">
+    <mat-label>Sección</mat-label>
+    <input matInput formControlName="section" />
+    <mat-error *ngIf="saveCourseForm.get('section')?.hasError('required')">
+      Campo requerido
+    </mat-error>
+    <mat-error *ngIf="saveCourseForm.get('section')?.hasError('minlength')">
+      Mínimo de 1 carácter
+    </mat-error>
+    <mat-error *ngIf="saveCourseForm.get('section')?.hasError('maxlength')">
+      Máximo de 10 caracteres
+    </mat-error>
+  </mat-form-field>
+
+  <mat-form-field appearance="fill" class="w-full">
+    <mat-label>Tipo</mat-label>
+    <mat-select formControlName="type">
+      <mat-option *ngFor="let type of courseTypes" [value]="type">
+        {{ courseTypeLabels[type] }}
+      </mat-option>
+    </mat-select>
+    <mat-error *ngIf="saveCourseForm.get('type')?.hasError('required')">
+      Campo requerido
+    </mat-error>
+  </mat-form-field>
+
+  <mat-form-field appearance="fill" class="w-full">
+    <mat-label>Docente que lo imparte</mat-label>
+    <mat-select formControlName="professor_id">
+      <mat-option *ngFor="let professor of professors" [value]="professor.id">
+        {{ professor.name }}
+      </mat-option>
+    </mat-select>
+    <mat-error *ngIf="saveCourseForm.get('professor_id')?.hasError('required')">
+      Debe seleccionar un docente
+    </mat-error>
+  </mat-form-field>
+</mat-dialog-content>
+
+<mat-dialog-actions align="end" class="mt-4">
+  <button mat-button (click)="closeDialog()">Cancelar</button>
+  <button
+    mat-flat-button
+    color="primary"
+    (click)="save()"
+    [disabled]="!saveCourseForm.valid"
+  >
+    {{ isEditMode ? "Guardar" : "Crear" }}
+    <mat-icon>{{ isEditMode ? "save" : "add" }}</mat-icon>
+  </button>
+</mat-dialog-actions>
