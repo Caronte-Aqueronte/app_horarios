@@ -21,7 +21,6 @@ export class CoursesPageComponent implements OnInit {
     'career',
     'semester',
     'section',
-    'professor_name',
     'type',
     'actions',
   ];

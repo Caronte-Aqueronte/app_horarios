@@ -44,7 +44,6 @@ export class CoursePipeline extends CourseBase {
 
 export class Course extends CourseBase {
   public id: number;
-  public professor: Professor;
 
   constructor(
     id: number,
@@ -54,10 +53,8 @@ export class Course extends CourseBase {
     semester: number,
     section: string,
     type: CourseTypeEnum,
-    professor: Professor
   ) {
     super(name, code, career, semester, section, type);
     this.id = id;
-    this.professor = professor;
   }
 }

@@ -1,10 +1,11 @@
-import { Component, Inject } from '@angular/core';
+import { Component, Inject, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ProfessorService } from '../../services/professor.service';
 import { ToastrService } from 'ngx-toastr';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
-import { CourseDialogComponent } from '../../courses/course-dialog/course-dialog.component';
 import { Professor, ProfessorPipeline } from '../../models/professor';
+import { CourseService } from '../../services/course.service';
+import { Course } from '../../models/course';
 
 @Component({
   selector: 'app-professor-dialog',
@@ -12,9 +13,11 @@ import { Professor, ProfessorPipeline } from '../../models/professor';
   templateUrl: './professor-dialog.component.html',
   styleUrl: './professor-dialog.component.css',
 })
-export class ProfessorDialogComponent {
+export class ProfessorDialogComponent implements OnInit {
   public saveProfessorForm: FormGroup;
   public isEditMode: boolean;
+  public selectedCoursesIds: number[] = [];
+  public courses: Course[] = [];
 
   /**
    *
@@ -27,10 +30,11 @@ export class ProfessorDialogComponent {
     private dialogRef: MatDialogRef<ProfessorDialogComponent>,
     private toastr: ToastrService,
     private professorService: ProfessorService,
+    private courseService: CourseService,
     @Inject(MAT_DIALOG_DATA) public professorToEdit: Professor | null
   ) {
     this.isEditMode = professorToEdit ? true : false;
-
+    this.loadProfessoCourses();
     this.saveProfessorForm = this.fb.group({
       name: [
         professorToEdit?.name || '',
@@ -54,6 +58,10 @@ export class ProfessorDialogComponent {
     });
   }
 
+  public ngOnInit(): void {
+    this.getAllCourses();
+  }
+
   public save(): void {
     //si el formulario no esta completo lanzamos error
     if (!this.saveProfessorForm.valid) {
@@ -70,10 +78,10 @@ export class ProfessorDialogComponent {
       professorFormValue.name,
       professorFormValue.dpi,
       this.formatTimeToString(new Date(professorFormValue.entry_time)),
-      this.formatTimeToString(new Date(professorFormValue.exit_time))
+      this.formatTimeToString(new Date(professorFormValue.exit_time)),
+      this.selectedCoursesIds
     );
 
-    const professorToSave: ProfessorPipeline = this.saveProfessorForm.value;
     this.isEditMode
       ? this.editProfessor(professor)
       : this.createProfessor(professor);
@@ -124,6 +132,30 @@ export class ProfessorDialogComponent {
     const minutes = String(date.getMinutes()).padStart(2, '0');
     const seconds = String(date.getSeconds()).padStart(2, '0');
     return `${hours}:${minutes}:${seconds}`;
+  }
+
+  private getAllCourses(): void {
+    this.courseService.getAllCourses().subscribe((response) => {
+      this.courses = response;
+    });
+  }
+
+  public onCheckboxChange(id: number): void {
+    //si lo incluye es pouqe esta seleccionado y debemos eliminarlo de la lista librando la lista con todos aquellos
+    //elementos que no sean el id
+    if (this.selectedCoursesIds.includes(id)) {
+      this.selectedCoursesIds = this.selectedCoursesIds.filter((existingId) => {
+        return existingId !== id;
+      });
+      return;
+    }
+    this.selectedCoursesIds.push(id);
+  }
+
+  private loadProfessoCourses() {
+    for (var course of this.professorToEdit?.courses || []) {
+      this.selectedCoursesIds.push(course.id);
+    }
   }
 
   public closeDialog() {

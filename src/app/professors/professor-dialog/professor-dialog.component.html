@@ -50,11 +50,7 @@
 
   <mat-form-field appearance="fill" class="w-full">
     <mat-label>Hora de Salida</mat-label>
-    <input
-      matInput
-      formControlName="exit_time"
-      [matTimepicker]="exit_time"
-    />
+    <input matInput formControlName="exit_time" [matTimepicker]="exit_time" />
     <mat-timepicker-toggle
       matIconSuffix
       [for]="exit_time"
@@ -64,6 +60,20 @@
       Campo requerido
     </mat-error>
   </mat-form-field>
+  <div class="border rounded-md max-h-48 overflow-auto p-4">
+    <label class="font-semibold block mb-2">Cursos asignados</label>
+    <div
+      *ngFor="let course of courses"
+      class="flex items-center gap-x-2"
+    >
+      <mat-checkbox
+        [checked]="selectedCoursesIds.includes(course.id)"
+        (change)="onCheckboxChange(course.id)"
+      >
+        {{ course.name }}
+      </mat-checkbox>
+    </div>
+  </div>
 </mat-dialog-content>
 
 <mat-dialog-actions align="end" class="mt-4">
@@ -75,6 +85,6 @@
     [disabled]="!saveProfessorForm.valid"
   >
     {{ isEditMode ? "Guardar" : "Crear" }}
-    <mat-icon >{{ isEditMode ? "save" : "add" }}</mat-icon>
+    <mat-icon>{{ isEditMode ? "save" : "add" }}</mat-icon>
   </button>
 </mat-dialog-actions>

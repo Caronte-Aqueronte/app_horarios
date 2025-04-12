@@ -1,4 +1,6 @@
-export class ProfessorPipeline {
+import { Course } from './course';
+
+class ProfessorBase {
   public name: string;
   public dpi: string;
   public entry_time: string;
@@ -17,18 +19,34 @@ export class ProfessorPipeline {
   }
 }
 
-export class Professor extends ProfessorPipeline {
+export class ProfessorPipeline extends ProfessorBase {
+  public courses_ids: number[];
 
+  constructor(
+    name: string,
+    dpi: string,
+    entry_time: string,
+    exit_time: string,
+    courses_ids: number[]
+  ) {
+    super(name, dpi, entry_time, exit_time);
+    this.courses_ids = courses_ids;
+  }
+}
+
+export class Professor extends ProfessorBase {
   public id: number;
-
+  public courses: Course[];
   constructor(
     id: number,
     name: string,
     dpi: string,
     entry_time: string,
-    exit_time: string
+    exit_time: string,
+    courses: Course[]
   ) {
     super(name, dpi, entry_time, exit_time);
     this.id = id;
+    this.courses = courses;
   }
 }

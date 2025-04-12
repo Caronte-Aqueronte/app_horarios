@@ -25,6 +25,8 @@ import { MatDialogModule } from '@angular/material/dialog';
 import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
 import { MatTimepickerModule } from '@angular/material/timepicker';
+import {MatCheckboxModule} from '@angular/material/checkbox';
+
 import { provideNativeDateAdapter } from '@angular/material/core';
 
 import { provideHttpClient } from '@angular/common/http';
@@ -62,6 +64,7 @@ import { ProfessorDialogComponent } from './professors/professor-dialog/professo
     MatInputModule,
     MatTimepickerModule,
     MatSelectModule,
+    MatCheckboxModule,
     ReactiveFormsModule,
     BrowserAnimationsModule,
     ToastrModule.forRoot({
