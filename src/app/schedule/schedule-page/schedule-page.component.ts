@@ -30,6 +30,7 @@ export class SchedulePageComponent implements OnInit {
   public selectedCoursesIds: number[] = [];
   public selectedProfessorsIds: number[] = [];
   public selectedClassroomCourses: Record<number, number> = {};
+  public selectionType = '1';
 
   constructor(
     private toastr: ToastrService,
@@ -49,14 +50,18 @@ export class SchedulePageComponent implements OnInit {
 
   public onGenerateSchedule(): void {
     //validar que toda la info esta bien ingresada
-    if (
-      !this.target_fitness ||
-      !this.max_generations ||
-      !this.population_size
-    ) {
+    if (!this.population_size || !this.max_generations) {
       this.toastr.error(
         'Por favor, completá todos los parámetros con valores mayores a cero.',
         'Parámetros inválidos'
+      );
+      return;
+    }
+
+    if (this.target_fitness < 0) {
+      this.toastr.error(
+        'El valor de "Fitness objetivo" debe ser mayor a cero.',
+        'Parámetro inválido'
       );
       return;
     }
@@ -67,7 +72,8 @@ export class SchedulePageComponent implements OnInit {
       this.target_fitness,
       this.selectedCoursesIds,
       this.selectedProfessorsIds,
-      this.selectedClassroomCourses
+      this.selectedClassroomCourses,
+      Number(this.selectionType)
     );
 
     //si llego aqui todo bien podemos mandar la consulta

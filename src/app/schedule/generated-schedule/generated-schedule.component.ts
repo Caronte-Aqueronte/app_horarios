@@ -1,6 +1,8 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { Assignment, Schedule, ScheduleRow } from '../../models/schedule';
 import { ScheduleStoreService } from '../../services/schedule-store.service';
+import { ScheduleService } from '../../services/schedule.service';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-generated-schedule',
@@ -15,12 +17,20 @@ export class GeneratedScheduleComponent implements OnInit {
 
   public assignments: ScheduleRow[] = [];
 
-  constructor(private scheduleStoreService: ScheduleStoreService) {}
+  constructor(
+    private scheduleStoreService: ScheduleStoreService,
+    private scheduleService: ScheduleService,
+    private toastr: ToastrService
+  ) {}
 
   public ngOnInit(): void {
     this.schedule = this.scheduleStoreService.getSchedule();
 
     if (!this.schedule) {
+      this.toastr.error(
+        'No se ha generado ningún horario. Por favor, intente nuevamente.',
+        'Error'
+      );
       return; //si no viene nada entonces no podemos iniciar el horario
     }
 
@@ -28,6 +38,24 @@ export class GeneratedScheduleComponent implements OnInit {
 
     // El dataSource son simplemente las filas del horario
     this.assignments = this.schedule.rows;
+  }
+
+  public onExportSchedule() {
+    if (!this.schedule) {
+      this.toastr.error(
+        'No se ha generado ningún horario, por lo tanto no se puede exportar a PDF.',
+        'Exportación fallida'
+      );
+      return; //si no viene nada entonces no podemos iniciar el horario
+    }
+
+    this.scheduleService.exportSchedule(this.schedule).subscribe({
+      next: (pdf: Blob) => {
+        const blobUrl = URL.createObjectURL(pdf);
+        window.open(blobUrl);
+      },
+      error: (error: Error) => {},
+    });
   }
 
   /**
@@ -42,5 +70,4 @@ export class GeneratedScheduleComponent implements OnInit {
     }
     return ids;
   }
-
 }

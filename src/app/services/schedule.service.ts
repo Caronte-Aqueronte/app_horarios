@@ -18,9 +18,14 @@ export class ScheduleService {
     return this.http.post<Schedule>(this.apiUrl, schedule);
   }
 
-  // public getSchedule(schedule: SchedulePipeline): Observable<Blob> {
-  //   return this.http.post(this.apiUrl, schedule, {
-  //     responseType: 'blob',
-  //   });
-  // }
+  /**
+   * Manda a exportar un horario ya generado a pdf
+   * @param schedule
+   * @returns
+   */
+  public exportSchedule(schedule: Schedule): Observable<Blob> {
+    return this.http.post(`${this.apiUrl}export`, schedule, {
+      responseType: 'blob',
+    });
+  }
 }

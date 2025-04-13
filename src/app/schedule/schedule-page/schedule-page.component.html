@@ -16,40 +16,65 @@
   <label class="text-lg font-semibold text-gray-700 block mb-2">
     Parámetros del Algoritmo
   </label>
-
   <div
-    class="bg-white shadow-xl rounded-2xl p-6 ring-1 ring-gray-200 flex flex-row flex-wrap items-center gap-6"
+    class="bg-white shadow-xl rounded-2xl p-6 ring-1 ring-gray-200 flex flex-col flex-wrap justify-center gap-10"
   >
-    <mat-form-field appearance="fill">
-      <mat-label>Tamaño de Población</mat-label>
-      <input
-        type="number"
-        matInput
-        min="1"
-        [(ngModel)]="population_size"
-        required=""
-      />
-    </mat-form-field>
-    <mat-form-field appearance="fill">
-      <mat-label>Máximo de Generaciones</mat-label>
-      <input
-        type="number"
-        matInput
-        min="1"
-        [(ngModel)]="max_generations"
-        required=""
-      />
-    </mat-form-field>
-    <mat-form-field appearance="fill">
-      <mat-label>Fitness Objetivo</mat-label>
-      <input
-        type="number"
-        matInput
-        min="1"
-        [(ngModel)]="target_fitness"
-        required
-      />
-    </mat-form-field>
+    <div class="flex flex-row flex-wrap items-center gap-10">
+      <label class="text-sm font-semibold text-gray-700">Parametros:</label>
+      <mat-form-field appearance="fill">
+        <mat-label>Tamaño de Población</mat-label>
+        <input
+          type="number"
+          matInput
+          min="1"
+          [(ngModel)]="population_size"
+          required=""
+        />
+      </mat-form-field>
+      <mat-form-field appearance="fill">
+        <mat-label>Máximo de Generaciones</mat-label>
+        <input
+          type="number"
+          matInput
+          min="1"
+          [(ngModel)]="max_generations"
+          required=""
+        />
+      </mat-form-field>
+      <mat-form-field appearance="fill">
+        <mat-label>Fitness Objetivo</mat-label>
+        <input
+          type="number"
+          matInput
+          min="0"
+          [(ngModel)]="target_fitness"
+          required
+        />
+      </mat-form-field>
+    </div>
+    <div class="flex flex-row flex-wrap items-center gap-10">
+      <label class="text-sm font-semibold text-gray-700">
+        Tipo de Selección:
+      </label>
+      <mat-radio-group
+        aria-label="Select a course"
+        class="flex flex-row flex-wrap items-center gap-4"
+        [(ngModel)]="selectionType"
+      >
+        <mat-radio-button
+          value="1"
+          class="bg-white rounded-xl shadow hover:shadow-md border border-gray-300 transition-all duration-150 p-2"
+        >
+          Torneo
+        </mat-radio-button>
+        <mat-radio-button
+          value="2"
+          class="bg-white rounded-xl shadow hover:shadow-md border border-gray-300 transition-all duration-150 p-2"
+        >
+          Ruleta
+        </mat-radio-button>
+      </mat-radio-group>
+    </div>
   </div>
 
   <label class="text-lg font-semibold text-gray-700 block"

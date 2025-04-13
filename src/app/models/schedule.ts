@@ -53,6 +53,7 @@ export class SchedulePipeline {
   public courses_availables_ids: number[];
   public professors_availables_ids: number[];
   public manual_course_classrooms_assignments: Record<number, number>;
+  public selection_type: number;
 
   constructor(
     $population_size: number,
@@ -60,7 +61,8 @@ export class SchedulePipeline {
     $target_fitness: number,
     $courses_availables_ids: number[],
     $professors_availables_ids: number[],
-    $manual_course_classrooms_assignments: Record<number, number>
+    $manual_course_classrooms_assignments: Record<number, number>,
+    $selection_type: number
   ) {
     this.population_size = $population_size;
     this.max_generations = $max_generations;
@@ -69,5 +71,6 @@ export class SchedulePipeline {
     this.professors_availables_ids = $professors_availables_ids;
     this.manual_course_classrooms_assignments =
       $manual_course_classrooms_assignments;
+    this.selection_type = $selection_type;
   }
 }
