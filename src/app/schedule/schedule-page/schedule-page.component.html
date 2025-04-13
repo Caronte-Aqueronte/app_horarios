@@ -1,1 +1,113 @@
-<p>schedule-page works!</p>
+<div
+  class="flex items-center justify-between pb-4 mb-4 border-b border-gray-400"
+>
+  <h2 class="text-2xl font-semibold text-gray-800">
+    <fa-icon [icon]="'clock'"></fa-icon>
+    Gestión del Horario
+  </h2>
+
+  <button mat-raised-button color="primary" (click)="onGenerateSchedule()">
+    <mat-icon>add</mat-icon>
+    Generar Horario
+  </button>
+</div>
+
+<div class="flex flex-col gap-4">
+  <label class="text-lg font-semibold text-gray-700 block mb-2">
+    Parámetros del Algoritmo
+  </label>
+
+  <div
+    class="bg-white shadow-xl rounded-2xl p-6 ring-1 ring-gray-200 flex flex-row flex-wrap items-center gap-6"
+  >
+    <mat-form-field appearance="fill">
+      <mat-label>Tamaño de Población</mat-label>
+      <input
+        type="number"
+        matInput
+        min="1"
+        [(ngModel)]="population_size"
+        required=""
+      />
+    </mat-form-field>
+    <mat-form-field appearance="fill">
+      <mat-label>Máximo de Generaciones</mat-label>
+      <input
+        type="number"
+        matInput
+        min="1"
+        [(ngModel)]="max_generations"
+        required=""
+      />
+    </mat-form-field>
+    <mat-form-field appearance="fill">
+      <mat-label>Fitness Objetivo</mat-label>
+      <input
+        type="number"
+        matInput
+        min="1"
+        [(ngModel)]="target_fitness"
+        required
+      />
+    </mat-form-field>
+  </div>
+
+  <label class="text-lg font-semibold text-gray-700 block"
+    >Cursos Tomados en cuenta</label
+  >
+  <div class="bg-white shadow-xl max-h-64 overflow-y-auto p-6 rounded-2xl">
+    <div class="grid grid-cols-3 gap-2">
+      <mat-checkbox
+        *ngFor="let course of courses"
+        (change)="onCheckboxCourseChange(course)"
+      >
+        {{ course.name }}
+      </mat-checkbox>
+    </div>
+  </div>
+  <label class="text-lg font-semibold text-gray-700 block"
+    >Docentes Tomados en cuenta</label
+  >
+  <div class="bg-white shadow-xl max-h-64 overflow-y-auto p-6 rounded-2xl">
+    <div class="grid grid-cols-3 gap-2">
+      <mat-checkbox
+        *ngFor="let professor of professors"
+        (change)="onCheckboxProfessorChange(professor.id)"
+      >
+        {{ professor.name + " - " + professor.dpi }}
+      </mat-checkbox>
+    </div>
+  </div>
+
+  <label class="text-lg font-semibold text-gray-700 block"
+    >Asigna Un Curso a los Salones</label
+  >
+  <div
+    class="bg-white shadow-xl max-h-64 overflow-y-auto p-6 rounded-2xl flex flex-col gap-6"
+  >
+    <div *ngFor="let classroom of classrooms" class="flex flex-col gap-6">
+      <label class="text-md text-gray-700"
+        >Selecciona Un Curso para
+        <span class="font-bold">{{ classroom.name }}</span></label
+      >
+      <div class="grid grid-cols-1">
+        <mat-radio-group
+          aria-label="Select a course"
+          class="grid grid-cols-2 md:grid-cols-3 gap-3"
+          [(ngModel)]="selectedClassroomCourses[classroom.id]"
+        >
+          <mat-radio-button
+            *ngFor="
+              let course of selectedCourses.length ? selectedCourses : courses
+            "
+            [value]="course.id"
+            class="bg-white rounded-xl shadow hover:shadow-md border border-gray-300 flex items-center transition-all duration-150"
+          >
+            {{ course.name }} -
+            <span class="ml-1 font-medium text-sm">{{ course.code }}</span>
+          </mat-radio-button>
+        </mat-radio-group>
+      </div>
+    </div>
+  </div>
+</div>

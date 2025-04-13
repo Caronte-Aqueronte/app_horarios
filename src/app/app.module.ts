@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
+import { FormsModule } from '@angular/forms';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -25,6 +26,8 @@ import { MatDialogModule } from '@angular/material/dialog';
 import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
 import { MatTimepickerModule } from '@angular/material/timepicker';
+import {MatRadioModule} from '@angular/material/radio';
+
 import {MatCheckboxModule} from '@angular/material/checkbox';
 
 import { provideNativeDateAdapter } from '@angular/material/core';
@@ -37,6 +40,7 @@ import { ClassroomsPageComponent } from './classrooms/classrooms-page/classrooms
 import { ClassroomDialogComponent } from './classrooms/classroom-dialog/classroom-dialog.component';
 import { ProfessorsPageComponent } from './professors/professors-page/professors-page.component';
 import { ProfessorDialogComponent } from './professors/professor-dialog/professor-dialog.component';
+import { GeneratedScheduleComponent } from './schedule/generated-schedule/generated-schedule.component';
 
 @NgModule({
   declarations: [
@@ -49,6 +53,7 @@ import { ProfessorDialogComponent } from './professors/professor-dialog/professo
     ClassroomDialogComponent,
     ProfessorsPageComponent,
     ProfessorDialogComponent,
+    GeneratedScheduleComponent,
   ],
   imports: [
     BrowserModule,
@@ -65,8 +70,10 @@ import { ProfessorDialogComponent } from './professors/professor-dialog/professo
     MatTimepickerModule,
     MatSelectModule,
     MatCheckboxModule,
+    MatRadioModule,
     ReactiveFormsModule,
     BrowserAnimationsModule,
+    FormsModule,
     ToastrModule.forRoot({
       timeOut: 10000,
       positionClass: 'toast-bottom-right',

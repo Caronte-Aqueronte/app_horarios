@@ -60,19 +60,15 @@
       Campo requerido
     </mat-error>
   </mat-form-field>
+  <label class="font-semibold block mb-2">Cursos asignados</label>
   <div class="border rounded-md max-h-48 overflow-auto p-4">
-    <label class="font-semibold block mb-2">Cursos asignados</label>
-    <div
+    <mat-checkbox
       *ngFor="let course of courses"
-      class="flex items-center gap-x-2"
+      [checked]="selectedCoursesIds.includes(course.id)"
+      (change)="onCheckboxChange(course.id)"
     >
-      <mat-checkbox
-        [checked]="selectedCoursesIds.includes(course.id)"
-        (change)="onCheckboxChange(course.id)"
-      >
-        {{ course.name }}
-      </mat-checkbox>
-    </div>
+      {{ course.name }}
+    </mat-checkbox>
   </div>
 </mat-dialog-content>
 
