@@ -26,14 +26,21 @@ import { MatDialogModule } from '@angular/material/dialog';
 import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
 import { MatTimepickerModule } from '@angular/material/timepicker';
-import {MatRadioModule} from '@angular/material/radio';
+import { MatRadioModule } from '@angular/material/radio';
+import { MatTabsModule } from '@angular/material/tabs';
 
-import {MatCheckboxModule} from '@angular/material/checkbox';
+import { MatCheckboxModule } from '@angular/material/checkbox';
 
 import { provideNativeDateAdapter } from '@angular/material/core';
 
 import { provideHttpClient } from '@angular/common/http';
 import { CourseDialogComponent } from './courses/course-dialog/course-dialog.component';
+
+import { BaseChartDirective } from 'ng2-charts';
+import {
+  provideCharts,
+  withDefaultRegisterables,
+  } from 'ng2-charts';
 
 import { ToastrModule } from 'ngx-toastr';
 import { ClassroomsPageComponent } from './classrooms/classrooms-page/classrooms-page.component';
@@ -56,6 +63,7 @@ import { GeneratedScheduleComponent } from './schedule/generated-schedule/genera
     GeneratedScheduleComponent,
   ],
   imports: [
+    BaseChartDirective,
     BrowserModule,
     AppRoutingModule,
     FontAwesomeModule,
@@ -70,6 +78,7 @@ import { GeneratedScheduleComponent } from './schedule/generated-schedule/genera
     MatTimepickerModule,
     MatSelectModule,
     MatCheckboxModule,
+    MatTabsModule,
     MatRadioModule,
     ReactiveFormsModule,
     BrowserAnimationsModule,
@@ -79,7 +88,7 @@ import { GeneratedScheduleComponent } from './schedule/generated-schedule/genera
       positionClass: 'toast-bottom-right',
     }),
   ],
-  providers: [provideHttpClient(), provideNativeDateAdapter()],
+  providers: [provideHttpClient(), provideNativeDateAdapter(),provideCharts(withDefaultRegisterables())],
   bootstrap: [AppComponent],
 })
 export class AppModule {

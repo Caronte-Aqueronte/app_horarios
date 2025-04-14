@@ -80,8 +80,9 @@ export class SchedulePageComponent implements OnInit {
     this.scheduleService.getSchedule(schedule).subscribe({
       next: (response: Schedule) => {
         //seteamos el schedule obtenido ene el servicio para que el otro componente pueda obtenerlo
+        console.log(response);
+
         this.scheduleStoreService.setSchedule(response);
-        console.log('Schedule recibido, navegando...');
         this.router.navigate(['/generated-schedule']);
       },
       error: (error: Error) => {

@@ -37,12 +37,34 @@ export class ScheduleRow {
 }
 
 export class Schedule {
+  public total_iterations: number;
+  public history_confilcts: Record<string, number>;
+  public history_fitness: Record<string, number>;
+  public memory_usage: number;
+  public total_time: number;
+  public semester_continuity_percentages: Record<string, number>;
+
   public classrooms: Classroom[];
   public rows: ScheduleRow[];
 
-  constructor($classrooms: Classroom[], $rows: ScheduleRow[]) {
-    this.classrooms = $classrooms;
-    this.rows = $rows;
+  constructor(
+    total_iterations: number,
+    history_conflicts: Record<string, number>,
+    history_fitness: Record<string, number>,
+    memory_usage: number,
+    total_time: number,
+    semester_continuity_percentages: Record<string, number>,
+    classrooms: Classroom[],
+    rows: ScheduleRow[]
+  ) {
+    this.total_iterations = total_iterations;
+    this.history_confilcts = history_conflicts;
+    this.history_fitness = history_fitness;
+    this.memory_usage = memory_usage;
+    this.total_time = total_time;
+    this.semester_continuity_percentages = semester_continuity_percentages;
+    this.classrooms = classrooms;
+    this.rows = rows;
   }
 }
 
