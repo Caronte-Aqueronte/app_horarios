@@ -1,0 +1,237 @@
+<mat-tab-group>
+  <mat-tab label="Horario">
+    <div
+      class="flex items-center justify-between pb-4 mb-4 border-b border-gray-400 mt-10"
+    >
+      <h2 class="text-2xl font-semibold text-gray-800">
+        <fa-icon [icon]="'clock'"></fa-icon>
+        Horario Generado
+      </h2>
+
+      <button mat-raised-button color="primary" (click)="onExportSchedule()">
+        <mat-icon>picture_as_pdf</mat-icon>
+        Exportar Horario en PDF
+      </button>
+    </div>
+
+    <mat-table
+      [dataSource]="assignments"
+      *ngIf="schedule"
+      class="mat-elevation-z8 mt-10 overflow-x-auto overflow-y-auto w-full w-full max-h-[75vh]"
+    >
+      <!-- define una columna para mostrar el rango de tiempo del periodo -->
+      <ng-container matColumnDef="time_range" class="min-w-[180px]">
+        <!-- celda de encabezado de la columna del periodo -->
+        <mat-header-cell *matHeaderCellDef  class="min-w-[180px]"> Periodo / Salon </mat-header-cell>
+        <!-- por cada una de las ocurrencias en el dataSource vamos creando la columa solo con el  -->
+        <mat-cell *matCellDef="let assignment"  class="min-w-[180px]">
+          {{ assignment.time_range }}
+        </mat-cell>
+      </ng-container>
+
+      <!-- por cada salon en el schedule vamos creando su columna  -->
+      <ng-container
+        *ngFor="let classroom of schedule.classrooms; let i = index"
+        [matColumnDef]="'classroom' + i"
+      >
+        <!-- COMO PRIMERA celda siempre colocamos el nombre del salon -->
+        <mat-header-cell *matHeaderCellDef class="min-w-[180px]">
+          {{ classroom.name }}
+        </mat-header-cell>
+
+        <!-- celda de contenido que muestra la asignacion correspondiente -->
+        <mat-cell *matCellDef="let row" class="min-w-[180px]">
+          <!-- obtiene la asignacion correspondiente al salon en esta fila -->
+          <ng-container *ngIf="row.assignments[i] as assignment">
+            <!-- si la celda no esta vacia muestra el curso y el profesor -->
+            <div *ngIf="!assignment.is_empty; else emptyCell">
+              <p class="font-bold">
+                {{ assignment.course?.name }} -
+                <span>{{ assignment.course?.code }}</span>
+              </p>
+              <small>
+                {{ assignment.course.career }} -
+                {{ assignment.course.semester }}
+              </small>
+              <br />
+              <small>
+                {{ assignment.professor_name }} -
+                {{ assignment.professor_personal_id }}
+              </small>
+            </div>
+            <!-- si no hay asignacion muestra un guion -->
+            <ng-template #emptyCell>
+              <em>-</em>
+            </ng-template>
+          </ng-container>
+        </mat-cell>
+      </ng-container>
+
+      <!-- define la fila de encabezado con las columnas que se mostraran -->
+      <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+
+      <!-- define cada fila del cuerpo de la tabla con las mismas columnas -->
+      <mat-row *matRowDef="let row; columns: displayedColumns"></mat-row>
+    </mat-table>
+  </mat-tab>
+  <mat-tab label="Reportes">
+    <div
+      class="flex items-center justify-between pb-4 mb-4 border-b border-gray-400 mt-10"
+    >
+      <h2 class="text-2xl font-semibold text-gray-800">
+        <fa-icon [icon]="'chart-bar'"></fa-icon>
+        Reportes del Algoritmo
+      </h2>
+    </div>
+    <div class="p-6 bg-white rounded-xl space-y-4 w-full mt-10">
+      <div class="grid grid-cols-2 gap-6 text-sm text-gray-700">
+        <div>
+          <p class="font-bold">Iteraciones Totales:</p>
+          <p>{{ schedule.total_iterations }}</p>
+        </div>
+
+        <div>
+          <p class="font-semibold">Tiempo Total de Ejecución:</p>
+          <p>{{ schedule.total_time | number : "1.4-4" }} segundos</p>
+        </div>
+
+        <div>
+          <p class="font-bold">Uso de Memoria:</p>
+          <p>{{ schedule.memory_usage }} KB</p>
+        </div>
+      </div>
+    </div>
+    <div class="mt-10">
+      <mat-tab-group>
+        <mat-tab label="Conflictos">
+          <div class="mt-10">
+            <h3
+              class="text-xl font-semibold text-gray-800 mb-4 flex items-center gap-2"
+            >
+              <fa-icon [icon]="'bug'"></fa-icon>
+              Historial de Conflictos por Generación
+            </h3>
+
+            <mat-table [dataSource]="conflictData" class="mat-elevation-z8">
+              <ng-container matColumnDef="generation">
+                <mat-header-cell *matHeaderCellDef>
+                  Generación
+                </mat-header-cell>
+                <mat-cell *matCellDef="let element">
+                  {{ element.generation }}
+                </mat-cell>
+              </ng-container>
+              <ng-container matColumnDef="conflicts">
+                <mat-header-cell *matHeaderCellDef>
+                  Conflictos
+                </mat-header-cell>
+                <mat-cell *matCellDef="let element">
+                  {{ element.conflicts }}
+                </mat-cell>
+              </ng-container>
+              <mat-header-row
+                *matHeaderRowDef="conflictDisplayedColumns"
+              ></mat-header-row>
+              <mat-row
+                *matRowDef="let row; columns: conflictDisplayedColumns"
+              ></mat-row>
+            </mat-table>
+          </div>
+        </mat-tab>
+        <mat-tab label="Aptitud">
+          <div class="mt-10">
+            <h3
+              class="text-xl font-semibold text-gray-800 mb-4 flex items-center gap-2"
+            >
+              <fa-icon [icon]="'chart-line'"></fa-icon>
+              Evolución de la función de aptitud
+            </h3>
+            <div class="">
+              <canvas
+                baseChart
+                [data]="fitnessChartData"
+                [labels]="fitnessChartLabels"
+                [legend]="true"
+                [type]="'line'"
+              >
+              </canvas>
+            </div>
+          </div>
+
+          <div class="mt-10">
+            <h3
+              class="text-xl font-semibold text-gray-800 mb-4 flex items-center gap-2"
+            >
+              <fa-icon [icon]="'bolt'"></fa-icon>
+              Historial de Aptitudes por Generación
+            </h3>
+
+            <mat-table [dataSource]="fitnessData" class="mat-elevation-z8">
+              <ng-container matColumnDef="generation">
+                <mat-header-cell *matHeaderCellDef>
+                  Generación
+                </mat-header-cell>
+                <mat-cell *matCellDef="let element">
+                  {{ element.generation }}
+                </mat-cell>
+              </ng-container>
+              <ng-container matColumnDef="conflicts">
+                <mat-header-cell *matHeaderCellDef>
+                  Conflictos
+                </mat-header-cell>
+                <mat-cell *matCellDef="let element">
+                  {{ element.conflicts }}
+                </mat-cell>
+              </ng-container>
+              <mat-header-row
+                *matHeaderRowDef="fitnessDisplayedColumns"
+              ></mat-header-row>
+              <mat-row
+                *matRowDef="let row; columns: fitnessDisplayedColumns"
+              ></mat-row>
+            </mat-table>
+          </div>
+        </mat-tab>
+        <mat-tab label="Porcentaje">
+          <div class="mt-10">
+            <h3
+              class="text-xl font-semibold text-gray-800 mb-4 flex items-center gap-2"
+            >
+              <fa-icon [icon]="'percent'"></fa-icon>
+              Porcentaje de Continuidad por Semestre
+            </h3>
+
+            <mat-table
+              [dataSource]="contuinityData"
+              class="mat-elevation-z8 w-full"
+            >
+              <ng-container matColumnDef="semester">
+                <mat-header-cell *matHeaderCellDef>
+                  Semestre / Carrera
+                </mat-header-cell>
+                <mat-cell *matCellDef="let element">
+                  {{ element.semester }}
+                </mat-cell>
+              </ng-container>
+              <ng-container matColumnDef="percentage">
+                <mat-header-cell *matHeaderCellDef>
+                  Continuidad (%)
+                </mat-header-cell>
+                <mat-cell *matCellDef="let element">
+                  {{ element.percentage }}%
+                </mat-cell>
+              </ng-container>
+
+              <mat-header-row
+                *matHeaderRowDef="continuityDisplayedColumns"
+              ></mat-header-row>
+              <mat-row
+                *matRowDef="let row; columns: continuityDisplayedColumns"
+              ></mat-row>
+            </mat-table>
+          </div>
+        </mat-tab>
+      </mat-tab-group>
+    </div>
+  </mat-tab>
+</mat-tab-group>

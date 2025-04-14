@@ -83,17 +83,6 @@
     </mat-error>
   </mat-form-field>
 
-  <mat-form-field appearance="fill" class="w-full">
-    <mat-label>Docente que lo imparte</mat-label>
-    <mat-select formControlName="professor_id">
-      <mat-option *ngFor="let professor of professors" [value]="professor.id">
-        {{ professor.name }}
-      </mat-option>
-    </mat-select>
-    <mat-error *ngIf="saveCourseForm.get('professor_id')?.hasError('required')">
-      Debe seleccionar un docente
-    </mat-error>
-  </mat-form-field>
 </mat-dialog-content>
 
 <mat-dialog-actions align="end" class="mt-4">

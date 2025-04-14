@@ -5,6 +5,7 @@ import { HomePageComponent } from './home/home-page/home-page.component';
 import { CoursesPageComponent } from './courses/courses-page/courses-page.component';
 import { ClassroomsPageComponent } from './classrooms/classrooms-page/classrooms-page.component';
 import { ProfessorsPageComponent } from './professors/professors-page/professors-page.component';
+import { GeneratedScheduleComponent } from './schedule/generated-schedule/generated-schedule.component';
 
 const routes: Routes = [
   {
@@ -12,7 +13,14 @@ const routes: Routes = [
     component: HomePageComponent,
     children: [
       { path: '', redirectTo: 'schedule', pathMatch: 'full' },
-      { path: 'schedule', component: SchedulePageComponent },
+      {
+        path: 'schedule',
+        component: SchedulePageComponent,
+      },
+      {
+        path: 'generated-schedule',
+        component: GeneratedScheduleComponent,
+      },
       { path: 'courses', component: CoursesPageComponent },
       { path: 'professors', component: ProfessorsPageComponent },
       { path: 'classrooms', component: ClassroomsPageComponent },

@@ -18,7 +18,7 @@ import {
   templateUrl: './course-dialog.component.html',
   styleUrl: './course-dialog.component.css',
 })
-export class CourseDialogComponent implements OnInit {
+export class CourseDialogComponent  {
   public saveCourseForm: FormGroup;
   public isEditMode: boolean;
 
@@ -81,17 +81,10 @@ export class CourseDialogComponent implements OnInit {
       type: [
         courseToEdit?.type || CourseTypeEnum.MANDATORY,
         Validators.required,
-      ],
-      professor_id: [courseToEdit?.professor?.id, [Validators.required]],
+      ]
     });
   }
 
-  /**
-   * Manda a cargar todos los docentes siempre que se cargue la ventana
-   */
-  public ngOnInit(): void {
-    this.getAllProfessors();
-  }
 
   public save(): void {
     //si el formulario no esta completo lanzamos error
@@ -146,15 +139,6 @@ export class CourseDialogComponent implements OnInit {
       error: (error: Error) => {
         this.toastr.error(error.message, 'Error');
       },
-    });
-  }
-
-  private getAllProfessors(): void {
-    this.professorService.getAllProfessors().subscribe({
-      next: (professors: Professor[]) => {
-        this.professors = professors;
-      },
-      error: (error: Error) => {},
     });
   }
 

@@ -3,6 +3,7 @@ import { Classroom } from '../../models/classroom';
 import { ClassroomService } from '../../services/classroom.service';
 import { MatDialog } from '@angular/material/dialog';
 import { ClassroomDialogComponent } from '../classroom-dialog/classroom-dialog.component';
+import { CsvDialogComponent } from '../../csv/csv-dialog/csv-dialog.component';
 
 @Component({
   selector: 'app-classrooms-page',
@@ -46,6 +47,18 @@ export class ClassroomsPageComponent implements OnInit {
       data: classroom,
     });
     //al cerrarse el dialog recargamos los salones
+    dialogRef.afterClosed().subscribe(() => {
+      this.getAllClassrooms();
+    });
+  }
+
+  public onOpenCsvClassroom(): void {
+    //abrimos el dialog de carga csv con 1 para que sepa a donde mandar la peticion
+    const dialogRef = this.dialog.open(CsvDialogComponent, {
+      width: '400px',
+      data: 4,
+    });
+
     dialogRef.afterClosed().subscribe(() => {
       this.getAllClassrooms();
     });

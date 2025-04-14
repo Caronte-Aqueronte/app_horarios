@@ -4,6 +4,7 @@ import { Course } from '../../models/course';
 import { MatDialog } from '@angular/material/dialog';
 import { CourseDialogComponent } from '../course-dialog/course-dialog.component';
 import { CourseTypeLabels } from '../../models/course-type.enum';
+import { CsvDialogComponent } from '../../csv/csv-dialog/csv-dialog.component';
 
 @Component({
   selector: 'app-courses-page',
@@ -21,7 +22,6 @@ export class CoursesPageComponent implements OnInit {
     'career',
     'semester',
     'section',
-    'professor_name',
     'type',
     'actions',
   ];
@@ -51,6 +51,18 @@ export class CoursesPageComponent implements OnInit {
     const dialogRef = this.dialog.open(CourseDialogComponent, {
       width: '400px',
       data: course, //no le pasamos nada de data para que se ponga en modo creacion
+    });
+
+    dialogRef.afterClosed().subscribe(() => {
+      this.getAllCourses();
+    });
+  }
+
+  public onOpenCsvCourse(): void {
+    //abrimos el dialog de carga csv con 1 para que sepa a donde mandar la peticion
+    const dialogRef = this.dialog.open(CsvDialogComponent, {
+      width: '400px',
+      data: 2,
     });
 
     dialogRef.afterClosed().subscribe(() => {
