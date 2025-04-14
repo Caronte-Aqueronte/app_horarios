@@ -53,8 +53,18 @@ export class ProfessorDialogComponent implements OnInit {
           Validators.maxLength(100),
         ],
       ],
-      entry_time: [professorToEdit?.entry_time || '', [Validators.required]],
-      exit_time: [professorToEdit?.exit_time || '', [Validators.required]],
+      entry_time: [
+        professorToEdit?.entry_time
+          ? this.stringToDate(professorToEdit.entry_time)
+          : '',
+        [Validators.required],
+      ],
+      exit_time: [
+        professorToEdit?.exit_time
+          ? this.stringToDate(professorToEdit.exit_time)
+          : '',
+        [Validators.required],
+      ],
     });
   }
 
@@ -79,12 +89,21 @@ export class ProfessorDialogComponent implements OnInit {
       professorFormValue.personal_id,
       this.formatTimeToString(new Date(professorFormValue.entry_time)),
       this.formatTimeToString(new Date(professorFormValue.exit_time)),
-      this.selectedCoursesIds
+      this.selectedCoursesIds,
+      '',
+      ''
     );
 
     this.isEditMode
       ? this.editProfessor(professor)
       : this.createProfessor(professor);
+  }
+
+  private stringToDate(timeStr: string): Date {
+    const [hours, minutes, seconds] = timeStr.split(':').map(Number);
+    const date = new Date();
+    date.setHours(hours, minutes, seconds || 0, 0);
+    return date;
   }
 
   private createProfessor(professor: ProfessorPipeline): void {
