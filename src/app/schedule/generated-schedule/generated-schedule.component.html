@@ -17,14 +17,14 @@
     <mat-table
       [dataSource]="assignments"
       *ngIf="schedule"
-      class="mat-elevation-z8 mt-10"
+      class="mat-elevation-z8 mt-10 overflow-x-auto overflow-y-auto w-full w-full max-h-[75vh]"
     >
       <!-- define una columna para mostrar el rango de tiempo del periodo -->
-      <ng-container matColumnDef="time_range">
+      <ng-container matColumnDef="time_range" class="min-w-[180px]">
         <!-- celda de encabezado de la columna del periodo -->
-        <mat-header-cell *matHeaderCellDef> Periodo / Salon </mat-header-cell>
+        <mat-header-cell *matHeaderCellDef  class="min-w-[180px]"> Periodo / Salon </mat-header-cell>
         <!-- por cada una de las ocurrencias en el dataSource vamos creando la columa solo con el  -->
-        <mat-cell *matCellDef="let assignment">
+        <mat-cell *matCellDef="let assignment"  class="min-w-[180px]">
           {{ assignment.time_range }}
         </mat-cell>
       </ng-container>
@@ -35,12 +35,12 @@
         [matColumnDef]="'classroom' + i"
       >
         <!-- COMO PRIMERA celda siempre colocamos el nombre del salon -->
-        <mat-header-cell *matHeaderCellDef>
+        <mat-header-cell *matHeaderCellDef class="min-w-[180px]">
           {{ classroom.name }}
         </mat-header-cell>
 
         <!-- celda de contenido que muestra la asignacion correspondiente -->
-        <mat-cell *matCellDef="let row">
+        <mat-cell *matCellDef="let row" class="min-w-[180px]">
           <!-- obtiene la asignacion correspondiente al salon en esta fila -->
           <ng-container *ngIf="row.assignments[i] as assignment">
             <!-- si la celda no esta vacia muestra el curso y el profesor -->
@@ -56,7 +56,7 @@
               <br />
               <small>
                 {{ assignment.professor_name }} -
-                {{ assignment.professor_dpi }}
+                {{ assignment.professor_personal_id }}
               </small>
             </div>
             <!-- si no hay asignacion muestra un guion -->

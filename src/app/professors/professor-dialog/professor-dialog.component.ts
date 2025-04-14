@@ -45,12 +45,12 @@ export class ProfessorDialogComponent implements OnInit {
         ],
       ],
 
-      dpi: [
-        professorToEdit?.dpi || '',
+      personal_id: [
+        professorToEdit?.personal_id || '',
         [
           Validators.required,
-          Validators.minLength(13),
-          Validators.maxLength(13),
+          Validators.minLength(1),
+          Validators.maxLength(100),
         ],
       ],
       entry_time: [professorToEdit?.entry_time || '', [Validators.required]],
@@ -76,7 +76,7 @@ export class ProfessorDialogComponent implements OnInit {
 
     const professor: ProfessorPipeline = new ProfessorPipeline(
       professorFormValue.name,
-      professorFormValue.dpi,
+      professorFormValue.personal_id,
       this.formatTimeToString(new Date(professorFormValue.entry_time)),
       this.formatTimeToString(new Date(professorFormValue.exit_time)),
       this.selectedCoursesIds

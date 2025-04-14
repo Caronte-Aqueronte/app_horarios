@@ -3,6 +3,7 @@ import { Professor } from '../../models/professor';
 import { ProfessorService } from '../../services/professor.service';
 import { MatDialog } from '@angular/material/dialog';
 import { ProfessorDialogComponent } from '../professor-dialog/professor-dialog.component';
+import { CsvDialogComponent } from '../../csv/csv-dialog/csv-dialog.component';
 
 @Component({
   selector: 'app-professors-page',
@@ -16,7 +17,7 @@ export class ProfessorsPageComponent implements OnInit {
   public displayedColumns: string[] = [
     'id',
     'name',
-    'dpi',
+    'personal_id',
     'entry_time',
     'exit_time',
     'actions',
@@ -51,6 +52,30 @@ export class ProfessorsPageComponent implements OnInit {
     const dialogRef = this.dialog.open(ProfessorDialogComponent, {
       width: '400px',
       data: professor,
+    });
+
+    dialogRef.afterClosed().subscribe(() => {
+      this.getAllProfessors();
+    });
+  }
+
+  public onOpenCsvProfessor(): void {
+    //abrimos el dialog de carga csv con 1 para que sepa a donde mandar la peticion
+    const dialogRef = this.dialog.open(CsvDialogComponent, {
+      width: '400px',
+      data: 1,
+    });
+
+    dialogRef.afterClosed().subscribe(() => {
+      this.getAllProfessors();
+    });
+  }
+
+  public onOpenCsvAssgiment(): void {
+    //abrimos el dialog de carga csv con 1 para que sepa a donde mandar la peticion
+    const dialogRef = this.dialog.open(CsvDialogComponent, {
+      width: '400px',
+      data: 3,
     });
 
     dialogRef.afterClosed().subscribe(() => {

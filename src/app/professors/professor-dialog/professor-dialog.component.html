@@ -18,18 +18,18 @@
   </mat-form-field>
 
   <mat-form-field appearance="fill" class="w-full">
-    <mat-label>DPI</mat-label>
-    <input matInput formControlName="dpi" />
-    <mat-error *ngIf="saveProfessorForm.get('dpi')?.hasError('required')">
+    <mat-label>Registro de Personal</mat-label>
+    <input matInput formControlName="personal_id" />
+    <mat-error
+      *ngIf="saveProfessorForm.get('personal_id')?.hasError('required')"
+    >
       Campo requerido
     </mat-error>
-    <mat-error
-      *ngIf="
-        saveProfessorForm.get('dpi')?.hasError('minlength') ||
-        saveProfessorForm.get('dpi')?.hasError('maxlength')
-      "
-    >
-      Debe tener de 13 carácter
+    <mat-error *ngIf="saveProfessorForm.get('personal_id')?.hasError('minlength')">
+      Mínimo de 1 carácter
+    </mat-error>
+    <mat-error *ngIf="saveProfessorForm.get('personal_id')?.hasError('maxlength')">
+      Máximo de 100 caracteres
     </mat-error>
   </mat-form-field>
 

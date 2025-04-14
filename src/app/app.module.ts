@@ -48,6 +48,7 @@ import { ClassroomDialogComponent } from './classrooms/classroom-dialog/classroo
 import { ProfessorsPageComponent } from './professors/professors-page/professors-page.component';
 import { ProfessorDialogComponent } from './professors/professor-dialog/professor-dialog.component';
 import { GeneratedScheduleComponent } from './schedule/generated-schedule/generated-schedule.component';
+import { CsvDialogComponent } from './csv/csv-dialog/csv-dialog.component';
 
 @NgModule({
   declarations: [
@@ -61,6 +62,7 @@ import { GeneratedScheduleComponent } from './schedule/generated-schedule/genera
     ProfessorsPageComponent,
     ProfessorDialogComponent,
     GeneratedScheduleComponent,
+    CsvDialogComponent,
   ],
   imports: [
     BaseChartDirective,
